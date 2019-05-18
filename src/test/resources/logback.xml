@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--https://logback.qos.ch/manual/layouts.html-->
+    <property name="pattern" value="[%d{yyyy-MM-dd HH:mm:ss}][%-5p] [%t] [%c:%L]-%m%n%xException"/>
+    <property name="graylog_host" value="localhost"/>
+    <property name="graylog_port" value="8110"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="gelfAppender" class="me.moocar.logbackgelf.GelfUDPAppender">
+        <remoteHost>${graylog_host}</remoteHost>
+        <port>${graylog_port}</port>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="me.moocar.logbackgelf.GelfLayout">
+                <fullMessageLayout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>${pattern}</pattern>
+                </fullMessageLayout>
+                <useLoggerName>true</useLoggerName>
+                <useThreadName>true</useThreadName>
+                <useMarker>true</useMarker>
+                <includeFullMDC>true</includeFullMDC>
+                <fieldType>requestId:long</fieldType>
+                <staticField class="me.moocar.logbackgelf.Field">
+                    <key>facility</key>
+                    <value>SYSLOG</value>
+                </staticField>
+            </layout>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="gelfAppender"/>
+    </root>
+</configuration>
