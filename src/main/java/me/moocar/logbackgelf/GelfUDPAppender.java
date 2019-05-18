@@ -9,8 +9,9 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * A UDP appender that sends logs to a remote UDP server. Slices messages into multiple chunks if they're too big. See
- * GelfChunkingOutputStream for how chunking works.
+ * A UDP appender that sends logs to a remote UDP server.
+ * Slices messages into multiple chunks if they're too big.
+ * See GelfChunkingOutputStream for how chunking works.
  *
  * @param <E>
  */
@@ -26,7 +27,9 @@ public class GelfUDPAppender<E> extends OutputStreamAppender<E> {
 
     @Override
     public void start() {
-        if (isStarted()) return;
+        if (isStarted()) {
+            return;
+        }
         int errorCount = 0;
         if (port <= 0) {
             errorCount++;
@@ -83,8 +86,6 @@ public class GelfUDPAppender<E> extends OutputStreamAppender<E> {
                 super.start();
             } catch (SocketException e) {
                 addError("Could not connect to remote host", e);
-            } catch (UnknownHostException e) {
-                addError("unknown host: " + remoteHost);
             }
         }
 

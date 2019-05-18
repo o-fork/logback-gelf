@@ -5,17 +5,18 @@ import java.io.OutputStream;
 import java.net.*;
 
 /**
- * An OutputStream that sends bytes as UDP packets to a [GELF](https://www.graylog.org/resources/gelf/) compatible
- * remote server. Use flush() to signify the end of a message. If the total number of bytes in the message is less than
- * maxPacketSize, they will be sent in one datagram. If more, the bytes will be broken up into GELF chunks and sent all
- * at once when flush() is called.
+ * An OutputStream that sends bytes as UDP packets to a [GELF](https://www.graylog.org/resources/gelf/) compatible remote server.
+ * Use flush() to signify the end of a message.
+ * If the total number of bytes in the message is less than maxPacketSize, they will be sent in one datagram.
+ * If more, the bytes will be broken up into GELF chunks and sent all at once when flush() is called.
  *
- * Note that this class is NOT thread safe. A sequential process should call flush() before another starts writing.
+ * Note that this class is NOT thread safe.
+ * A sequential process should call flush() before another starts writing.
  */
 public class GelfChunkingOutputStream extends OutputStream {
 
-    // GELF specifies a maximum number of chunks. Chunks will be dropped on the server once more than MAX_CHUNKS are
-    // sent to the server for a particular message
+    // GELF specifies a maximum number of chunks.
+    // Chunks will be dropped on the server once more than MAX_CHUNKS are sent to the server for a particular message
     private final int MAX_CHUNKS = 128;
     private final byte[] CHUNKED_GELF_ID_BYTES = new byte[]{0x1e, 0x0f};
     private final int MESSAGE_ID_LENGTH = 8;
@@ -66,7 +67,7 @@ public class GelfChunkingOutputStream extends OutputStream {
     }
 
 
-    public void start() throws SocketException, UnknownHostException {
+    public void start() throws SocketException {
         this.socket = new DatagramSocket();
         this.socket.connect(address, port);
     }

@@ -204,9 +204,7 @@ public class GelfLayout<E extends ILoggingEvent> extends LayoutBase<E> {
     private String getLocalHostName() {
         try {
             return InternetUtils.getLocalHostName();
-        } catch (SocketException e) {
-            return "UNKNOWN";
-        } catch (UnknownHostException e) {
+        } catch (SocketException | UnknownHostException e) {
             return "UNKNOWN";
         }
     }

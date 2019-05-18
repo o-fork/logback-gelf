@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class InternetUtils {
+
     private static final String REGEX_IP_ADDRESS = "\\d+(\\.\\d+){3}";
 
     private InternetUtils() {
