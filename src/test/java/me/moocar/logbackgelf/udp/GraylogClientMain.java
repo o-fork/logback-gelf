@@ -17,7 +17,8 @@ public class GraylogClientMain {
         for (; ; ) {
 
             TimeUnit.SECONDS.sleep(1);
-            logger.error("test", new NullPointerException("123"));
+//            logger.error("test", new NullPointerException("123"));
+            logger.error("test");
 
         }
 
